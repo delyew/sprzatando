@@ -1,0 +1,12 @@
+{% extends 'registration/login_base.html' %}
+{% block content %}
+{% load crispy_forms_tags%}
+
+<div class="jumbotron">
+<h1>Utwórz konto</h1>
+</div>
+
+ <div class="container-fluid">
+   {% crispy form %}
+ </div>
+{% endblock %}

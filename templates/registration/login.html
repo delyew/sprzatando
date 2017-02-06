@@ -1,0 +1,9 @@
+{% extends 'registration/login_base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="jumbotron">
+<h1>Nie powiodło się</h1>
+<p><a href="{%url 'password_reset' %}">Zapomniałeś hasła?</a></p>
+<p>Jeśli nie masz konta możesz się<a href="/accounts/register/">Zarejestrować</a>.
+</div>
+{%endblock%}

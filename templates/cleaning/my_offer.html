@@ -1,0 +1,181 @@
+{% extends 'cleaning/base.html' %}
+{% block content %}    
+{% load i18n %}
+
+<div class="container">
+<h1>Wystawiłeś te oferty:</h1>
+  <div class="row">
+  {% for offer in offer %}
+    <div class="col-lg-3">
+      {% language 'pl' %}
+      <h2>{{offer.target_date|date:"d E Y"}}, {{offer.target_date|time:"H:i"}}</h2>
+      {% endlanguage %}
+
+      <p><strong>Miejsce:</strong> {{offer.place|title}}</p>
+      <p><strong>Czynność:</strong></p>
+      <ul>
+        {%if offer.full_cleaning %}
+        <li>Pełne mycie</li>
+        {% endif %}
+        {%if offer.car_cleaning%}
+        <li>Mycie samochodu</li>
+        {% endif %}
+        {%if offer.window_cleaning%}
+        <li>Mycie okien</li>
+        {% endif %}
+      </ul>
+      <p><strong>Pokoje:</strong></p>
+      <ul>
+      {%if offer.living_room%}
+      <li>Salon</li>
+      {% endif %}
+      {%if offer.kitchen%}
+      <li>Kuchnia</li>
+      {% endif %}
+      {%if offer.bedroom%}
+      <li>Sypialnia</li>
+      {% endif %}
+      {%if offer.bathroom%}
+      <li>Łazienka</li>
+      {% endif %}
+      </ul>
+      {% if offer.bonus_option %}
+      <p><strong>Bonus:</strong> {{offer.bonus_option}}</p>
+      {% endif %}
+      <p><strong>Cena:</strong> {{offer.price}}</p>
+      <p><strong>Kontakt:</strong> {{offer.phone_number}}, {{offer.email}}</p>
+      {% if offer.chosen_worker %}
+      <p><strong>Zaakceptowany pracownik:</strong>
+          {% if offer.chosen_worker and offer.worker_accepted %}
+          <strong><span class="red">{{offer.chosen_worker}}</span></strong>
+           <a href="{% url 'rate_user' pk=offer.pk %}" onclick="return confirm('Na pewno? To usunie oferte')">
+      Potwierdź prace!</a></p>
+          {%else %}
+          {{offer.chosen_worker}}
+          {%endif%}
+
+      {% elif offer.pk in signed_offer_all %}
+        <p><a href="{% url 'choose_worker' pk=offer.pk %}">Wybierz pracownika</a></p>
+
+      {% else %}
+        <p><strong> Nikt sie nie zapisał</strong></p>
+        {%endif%}
+    </div>
+  {% endfor %}
+  </div>
+</div>
+<hr>  
+
+
+<div class="container">
+<h1>Zapisałeś się do: </h1>
+  <div class="row">
+
+  
+      {% for signed_offer in signed_offer %}
+      {% if not signed_offer.signed_offer in accepted_offer%}
+        <div class="col-lg-3">
+        <h2>Oferta {{signed_offer.signed_offer.author}}</h2>
+            {% language 'pl' %}
+      <p><strong>Data:</strong>{{signed_offer.signed_offer.target_date|date:"d E Y"}}, {{signed_offer.signed_offer.target_date|time:"H:i"}}</p>
+      {% endlanguage %}
+      
+      <p><strong>Miejsce:</strong> {{signed_offer.signed_offer.place}}</p>
+      <p><strong>Czynność:</strong></p>
+      <ul>
+        {%if signed_offer.signed_offer.full_cleaning %}
+        <li>Pełne mycie</li>
+        {% endif %}
+        {%if signed_offer.signed_offer.car_cleaning%}
+        <li>Mycie samochodu</li>
+        {% endif %}
+        {%if signed_offer.signed_offer.window_cleaning%}
+        <li>Mycie okien</li>
+        {% endif %}
+      </ul>
+      <p><strong>Pokoje:</strong></p>
+      <ul>
+      {%if signed_offer.signed_offer.living_room%}
+      <li>Salon</li>
+      {% endif %}
+      {%if signed_offer.signed_offer.kitchen%}
+      <li>Kuchnia</li>
+      {% endif %}
+      {%if signed_offer.signed_offer.bedroom%}
+      <li>Sypialnia</li>
+      {% endif %}
+      {%if signed_offer.signed_offer.bathroom%}
+      <li>Łazienka</li>
+      {% endif %}
+      </ul>
+      {% if signed_offer.signed_offer.bonus_option %}
+      <p><strong>Bonus:</strong> {{signed_offer.signed_offer.bonus_option}}</p>
+      {% endif %}
+      <p><strong>Cena:</strong> {{signed_offer.signed_offer.price}}</p>
+      <p><strong>Kontakt:</strong>{{signed_offer.signed_offer.phone_number}}, {{signed_offer.signed_offer.email}}</p>
+        </div>
+        {% endif%}
+
+      {% endfor %}
+    </div>
+</div>
+<hr>
+
+
+<div class="container">
+<h1>Zostałeś zaakceptowany do: </h1>
+  <div class="row">
+    {% for accepted in accepted_offer %}
+    <div class="col-lg-3">
+      <h2>Oferta {{accepted.author}}</h2>
+      {% language 'pl' %}
+      <p><strong>Data:</strong>{{accepted.target_date|date:"d E Y"}}, {{accepted.target_date|time:"H:i"}}</p>
+      {% endlanguage %}
+      <p><strong>Miejsce:</strong> {{accepted.place}}</p>
+      <p><strong>Czynność:</strong></p>
+      <ul>
+        {%if accepted.full_cleaning %}
+        <li>Pełne mycie</li>
+        {% endif %}
+        {%if accepted.car_cleaning%}
+        <li>Mycie samochodu</li>
+        {% endif %}
+        {%if accepted.window_cleaning%}
+        <li>Mycie okien</li>
+        {% endif %}
+      </ul>
+      <p><strong>Pokoje:</strong></p>
+      <ul>
+      {%if accepted.living_room%}
+      <li>Salon</li>
+      {% endif %}
+      {%if accepted.kitchen%}
+      <li>Kuchnia</li>
+      {% endif %}
+      {%if accepted.bedroom%}
+      <li>Sypialnia</li>
+      {% endif %}
+      {%if accepted.bathroom%}
+      <li>Łazienka</li>
+      {% endif %}
+      </ul>
+      {% if accepted.bonus_option %}
+      <p><strong>Bonus:</strong> {{accepted.bonus_option}}</p>
+      {% endif %}
+      <p><strong>Cena:</strong> {{accepted.price}}</p>
+      <p><strong>Kontakt:</strong>{{accepted.phone_number}}, {{accepted.email}}</p>
+        {% if accepted.worker_accepted %}
+        <p><strong><span class="green">Podjąłeś się pracy</span></strong></p>
+        {%else%}
+        <p><strong>Podejmujesz się pracy?</strong></p>
+        <p>
+        <button class="btn"><a href="{% url 'worker_accept'  pk=accepted.pk yes_no=1 %}"><span class="green">Tak</span></a></button>
+        <button class="btn"><a href="{% url 'worker_accept'  pk=accepted.pk yes_no=0 %}"><span class="red">Nie</span></a></button>
+        </p>
+        {%endif%}
+    </div>
+    {%endfor%}
+  </div>
+</div>
+<hr>
+{% endblock %}

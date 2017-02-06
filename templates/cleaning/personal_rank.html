@@ -1,0 +1,18 @@
+{% extends 'cleaning/base.html' %}
+{% block content %}
+<div class="jumbotron">
+<h1>Opinie dla {{profile}}</h1></div>
+<div class="ranking">
+<ul>
+{% for opinion in user_rank %}
+    <li>{{opinion.opinion}}, ocena: {{opinion.grade}}</li>
+    {%endfor%}
+</ul>
+    </div>
+<h2>Średnia ocena: {{avg_grade.grade__avg|floatformat}}</h2>
+
+
+{% if user_rank|length == 0 %}
+    <p>not ranked yet</p>
+{% endif %}
+{% endblock %}

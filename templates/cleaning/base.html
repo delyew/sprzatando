@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	{% load static %}
+	{% load compress %}
+	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}" rel="stylesheet">
+	  	<link href="{% static 'js/datetimepicker-master/jquery.datetimepicker.css' %}" rel="stylesheet">
+		{% compress css %}
+		<link rel="stylesheet" type="text/x-scss" href="{% static 'css/schoolapp.scss' %}">
+		{%endcompress %}
+	  
+	</head>
+<body>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+<script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/datetimepicker-master/build/jquery.datetimepicker.full.js' %}"></script>
+
+<nav class="navbar navbar-inverse navbar-toggleable-md" role="navigation">
+	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarToggler">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+	<div class="navbar-header">
+		<a class="navbar-brand" href="{% url 'index' %}">Sprzątando</a>
+		
+	</div>
+	<div class="collapse navbar-collapse" id="navbarToggler">
+		<ul class="nav navbar-nav">
+			<li><a href="{% url 'my_offer' %}">Moje oferty</a></li>
+			<li><a href="{% url 'search_offer' %}">Szukaj</a></li>
+			<li><a href="{% url 'new_offer' %}">Dodaj oferte</a></li>
+			<li><a href="{% url 'ranking' %}">Ranking użytkowników</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="/accounts/logout">Wyloguj</a></li>
+			<li><a href="{% url 'password_change' %}">Resetuj hasło</a></li>
+			<li><p class="navbar-text">Zalogowany jako {{user}}</p></li>
+			{% if user.is_superuser %}
+			<li><a href="/admin"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></a></li>
+			{% else %}
+			<li><a href="{% url 'personal_rank' pk=user.pk %}"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></a></li>
+			{%endif%}
+		</ul>
+	</div>
+</nav>
+{% block content %}
+{% endblock %}
+</body>

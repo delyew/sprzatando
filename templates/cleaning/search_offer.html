@@ -1,0 +1,90 @@
+{% extends 'cleaning/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+<div class="jumbotron">
+<h1>Szukaj ofert</h1>
+    <p>Tutaj możesz znaleźć wszystkie oferty które nie mają wybranego pracownika</p>
+    </div>
+<div id="filter" class="container-fluid">
+<div class='row'>
+    <div class='col-lg-5'>
+    {% crispy form %}
+    </div>
+    </div>
+</div>
+
+<div class="container">
+<div class="row">
+{% for of in offers %}
+<div class="col-lg-3">
+    {% language 'pl' %}
+    <h2>{{of.target_date|date:"d E Y"}}, {{of.target_date|time:"H:i"}}</h2>
+    {% endlanguage %}
+    <p><strong>Miejsce:</strong> {{of.place}}</p>
+      <p><strong>Czynność:</strong></p>
+      <ul>
+        {%if of.full_cleaning %}
+        <li>Pełne mycie</li>
+        {% endif %}
+        {%if of.car_cleaning%}
+        <li>Mycie samochodu</li>
+        {% endif %}
+        {%if of.window_cleaning%}
+        <li>Mycie okien</li>
+        {% endif %}
+      </ul>
+      <p><strong>Pokoje:</strong></p>
+      <ul>
+      {%if of.living_room%}
+      <li>Salon</li>
+      {% endif %}
+      {%if of.kitchen%}
+      <li>Kuchnia</li>
+      {% endif %}
+      {%if of.bedroom%}
+      <li>Sypialnia</li>
+      {% endif %}
+      {%if of.bathroom%}
+      <li>Łazienka</li>
+      {% endif %}
+      </ul>
+      {% if of.bonus_option %}
+      <p><strong>Bonus:</strong> {{of.bonus_option}}</p>
+      {% endif %}
+      <p><strong>Price:</strong> {{of.price}}</p>
+      <p><strong>Autor:</strong> {{of.author}} <a href="{% url 'personal_rank' pk=of.author.pk %}">Zobacz ocene</a></p>
+      <p><a href="{% url 'sign' pk=of.pk %}">Zapisz sie!</a></p>
+</div>
+
+{%endfor%}
+</div>
+</div>
+
+<script>
+  /*
+  Ajax działał, problem był z wyświetleniem tego za pomocą template'a, pierwsza petla nie chciala sie "zresetowac".
+  Nie dalo sie wyciagnac autora, zwracalo tylko PK
+
+  $('form').on('submit', function(event) {
+    event.preventDefault();
+    create_post();
+  
+    
+  });
+  function create_post(){
+    console.log('create post is working')
+    $.ajax({
+      url: 'http://127.0.0.1:8000/search/',
+      type: 'get',
+      data: { full_cleaning : $('#id_full_cleaning:checked').val()},
+
+      success: function(json){
+        console.log(json[0]['fields'])
+        $('#ajax_Test').text({{json.0.fields}})
+    }
+  })
+  }
+*/
+</script>
+{% endblock %}
