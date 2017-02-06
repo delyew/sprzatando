@@ -1,0 +1,28 @@
+{% extends 'cleaning/base.html' %}
+{% block content %}
+{% load i18n %}
+{% language 'pl' %}
+<h1>{{offer.target_date|date:"d E Y"}} {{offer.target_date|time:"H:i"}}, {{offer.place|title}}</h1>
+{% endlanguage %}
+
+{% if workers|length == 0 %}
+<h1>Nikt sie nie zapisał</h1>
+{%else%}
+<h1>Wybierz pracownika</h1>
+{%endif%}
+
+{% for w in worker_rank %}
+<p>
+{% for wor in workers %}
+    {% if wor.pk == w.user__signedworker %}
+        <a href="{% url 'save_worker' pk=offer.pk worker_pk=wor.pk%}" onclick="return confirm('Are you sure?')">{{wor.worker}},</a>
+ średnia ocena - {{w.grade__avg|floatformat}}</p>
+    {%else %}
+    <p><a href="{%url 'save_worker' pk=offer.pk worker_pk=wor.pk %}">{{wor}}</a>
+    średnia ocena - brak ocen
+    </p>
+    {%endif %}
+{%endfor%}
+{%endfor%}
+
+{% endblock %}

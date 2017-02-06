@@ -1,0 +1,48 @@
+{% extends 'cleaning/base.html' %}
+{% block content %} 
+{% load crispy_forms_tags %}
+<div class="jumbotron">
+    <h1>Dodaj oferte</h1>
+</div>
+<div class="container">
+{% crispy form %}
+
+</div>
+
+
+<script>
+    groupOne = ['id_full_cleaning', 'id_car_cleaning', 'id_window_cleaning']
+    chboxGroupOne = []
+    chboxGroupTwo = []
+    $('input[type=checkbox]').each(function(){
+    	if(groupOne.includes($(this).attr('id'))){
+    		chboxGroupOne.push($(this))
+    	}else{
+    		chboxGroupTwo.push($(this))
+    	}
+    }); 
+    $('#submit-id-save').click(function(){
+    	checkedFirst = []
+    	checkedSecond = []
+   		for(chbox in chboxGroupOne){
+   			if(chboxGroupOne[chbox].is(':checked')){
+   				checkedFirst = [chboxGroupOne[chbox]]
+   			}
+   		}
+   		for(chbox in chboxGroupTwo){
+   			if(chboxGroupTwo[chbox].is(':checked')){
+   				checkedSecond = [chboxGroupTwo[chbox]]
+   			}
+   		}
+   		if(checkedFirst.length == 0 || checkedSecond.length == 0){
+   			alert("wybierz co najmniej jedna opcje")
+   		}
+    });
+
+
+    jQuery('#id_target_date').datetimepicker({
+        format:'d/m/Y H:i',
+    });
+</script>
+
+{% endblock %}

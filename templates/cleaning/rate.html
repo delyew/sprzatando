@@ -1,0 +1,14 @@
+{% extends 'cleaning/base.html'%}
+{% block content %}
+{%load crispy_forms_tags %}
+<div class="jumbotron">
+    <h1>Oceń pracę</h1>
+    <p>Umieść krótki opis</p>
+</div>
+<div class="container">
+<form method="POST">{% csrf_token%}
+    {{form|crispy}}
+ <button type="submit" class="btn btn-primary">Wyślij</button>
+</form>
+    </div>
+{% endblock %}

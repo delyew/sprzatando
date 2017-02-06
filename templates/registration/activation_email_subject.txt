@@ -1,0 +1,1 @@
+Aktywuj swoje konto - masz {{ expiration_days }} dni!

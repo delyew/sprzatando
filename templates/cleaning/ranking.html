@@ -1,0 +1,19 @@
+{% extends 'cleaning/base.html' %}
+{% block content %}
+<div class="jumbotron">
+    <h1>Ranking użytkowników</h1>
+</div>
+<div class="ranking">
+<ol>{% for rank in rank %}
+    <li>{% if rank.user__username == user.username %}
+            <span class="green"><strong>{{rank.user__username}}</strong></span>,
+        {%else %}
+            {{rank.user__username}},
+        {%endif%}
+        średnia ocena: {{rank.avg_grade}} -  Ilość ocen: {{rank.count}}
+        <a href="{% url 'personal_rank' pk=rank.user %}">Zobacz profil</a>
+    </li>
+{%endfor%}
+</ol>
+    </div>
+{% endblock %}

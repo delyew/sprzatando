@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	{% load static %}
+		{% load compress %}
+		{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.css' %}" rel="stylesheet">
+		{% compress css %}
+		<link rel="stylesheet" type="text/x-scss" href="{% static 'css/schoolapp.scss' %}">
+		{%endcompress %}
+	</head>
+<body>
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="{% url 'index' %}">Sprzątando</a>
+
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/accounts/register/">Zarejestruj się</a></li>
+		</ul>
+	</div>
+    <div>
+	<form class="navbar-form navbar-right" role="form" method="post" accept-charset="utf-8" action="/accounts/login/">
+        <div class="form-group">
+        <input type="text" placeholder="Nazwa użytkownika" class="form-control" name="username">
+        </div>
+        <div class="form-group">
+        <input type="password" placeholder="Hasło" class="form-control" name="password">
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Zaloguj</button>
+    </form>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="{%url 'password_reset' %}">Zapomniałeś hasła?</a></li>
+		</ul>
+	</div>
+</nav>
+{% block content %}
+{% endblock %}
+</body>
